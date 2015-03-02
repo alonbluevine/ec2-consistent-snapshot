@@ -24,30 +24,6 @@ ec2-consistent-snapshot - Create EBS snapshots on EC2 w/consistent filesystem/db
 
     Dry run. Just say what you would have done, don't do it.
 
-- \--aws-access-key-id KEY
-- \--aws-secret-access-key SECRET
-
-    Amazon AWS access key and secret access key.  Defaults to
-    environment variables or .awssecret file contents described below.
-
-- \--aws-access-key-id-file KEYFILE
-- \--aws-secret-access-key-file SECRETFILE
-
-    Files containing Amazon AWS access key and secret access key.
-    Defaults to environment variables or .awssecret file contents
-    described below.
-
-- \--aws-credentials-file CREDENTIALSFILE
-
-    File containing both the Amazon AWS access key and secret access
-    key on seprate lines and in that order.  Defaults to contents of
-    $AWS\_CREDENTIALS environment variable or the value $HOME/.awssecret
-
-- \--use-iam-role
-
-    The instance is part of an IAM role that that has permission to create
-    snapshots so there is no need to specify access key or secret.
-
 - \--region REGION
 
     Specify a different EC2 region like "eu-west-1".  Defaults to
@@ -190,6 +166,11 @@ If you have multiple EBS volumes which are hosting different file
 systems, it might be better to simply run the command once for each
 volume id.
 
+NOTE: This is a modified version of Eric Hammond's original
+ec2-consistent-snapshot program.  This version uses the AWS CLI tools,
+instead of the Net::Amazon::EC2 Perl module.  The original program
+is available here: https://github.com/alestic/ec2-consistent-snapshot
+
 # EXAMPLES
 
 Snapshot a volume with a frozen filesystem under /vol containing a
@@ -234,24 +215,6 @@ Snapshot two volumes with customized descriptions:
       --description "Description 2nd Volume"                     \
       vol-VOL1 vol-VOL2
 
-# ENVIRONMENT
-
-- $AWS\_ACCESS\_KEY\_ID
-
-    Default value for access key.
-    Can be overridden by command line options.
-
-- $AWS\_SECRET\_ACCESS\_KEY
-
-    Default value for secret access key.  Can be overridden by command
-    line options.
-
-- $AWS\_CREDENTIALS
-
-    Default value for filename containing both access key and secret
-    access key on separate lines and in that order. Can be overriden by
-    the --aws-credentials command line option.
-
 # FILES
 
 - $HOME/.my.cnf
@@ -259,47 +222,16 @@ Snapshot two volumes with customized descriptions:
     Default values for MySQL user and password are sought here in the
     standard format.
 
-- $HOME/.awssecret
-
-    Default values for access key and secret access keys are sought here.
-    Can be overridden by environment variables and command line options.
-
 # INSTALLATION
 
-On most Ubuntu releases, the __ec2-consistent-snapshot__ package can be
-installed directly from the Alestic.com PPA using the following
-commands:
+This program relies on the AWS CLI tools.  See installation instructions
+here: http://docs.aws.amazon.com/cli/latest/userguide/installing.html
 
-    sudo add-apt-repository ppa:alestic
-    sudo apt-get update
-    sudo apt-get install ec2-consistent-snapshot
+This program also relies on the JSON perl module, which can be installed
+with cpan:
 
-This program may also require the installation of the Net::Amazon::EC2
-Perl package from CPAN.  On Ubuntu 10.04 Lucid and higher, this should
-happen automatically by the dependency on the libnet-amazon-ec2-perl
-package.
+cpan JSON
 
-On some earlier releases of Ubuntu you can install the required
-package with the following command:
-
-    sudo PERL_MM_USE_DEFAULT=1 cpan Net::Amazon::EC2
-
-On Ubuntu 8.04 Hardy, use the following commands instead:
-
-    code=$(lsb_release -cs)
-    echo "deb http://ppa.launchpad.net/alestic/ppa/ubuntu $code main"|
-      sudo tee /etc/apt/sources.list.d/alestic-ppa.list
-    sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys BE09C571
-    sudo apt-get update
-    sudo apt-get install ec2-consistent-snapshot build-essential
-    sudo cpan Net::Amazon::EC2
-
-The default values can be accepted for most of the prompts, though it
-is necessary to select a CPAN mirror on Hardy.
-
-On Amazon Linux, Use the following command. 
-
-     yum --enablerepo=epel install perl-Net-Amazon-EC2 perl-File-Slurp perl-DBI perl-DBD-MySQL perl-Net-SSLeay perl-IO-Socket-SSL perl-Time-HiRes perl-Params-Validate perl-DateTime-Format-ISO8601 perl-Date-Manip perl-Moose ca-certificates
 
 # SEE ALSO
 
@@ -334,10 +266,6 @@ in possibly using some credentials it finds that are not the correct
 ones you wish to use, especially if you are operating in an
 environment where multiple sets of credentials are in use.
 
-# BUGS
-
-Please report bugs at https://bugs.launchpad.net/ec2-consistent-snapshot
-
 # CREDITS
 
 Thanks to the following for performing tests on early versions,
@@ -364,11 +292,12 @@ providing feature development, feedback, bug reports, and patches:
 
 # AUTHOR/MAINTAINER
 
-Eric Hammond <ehammond@thinksome.com>
+Matt Lyon <talisto@gmail.com>
 
 # LICENSE
 
-Copyright 2009-2014 Eric Hammond <ehammond@thinksome.com>
+Original work Copyright (C) 2009-2014 Eric Hammond <ehammond@thinksome.com>
+Modified work Copyright (C) 2015 Matt Lyon <talisto@gmail.com>
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
