@@ -689,36 +689,16 @@ Quiet mode.
 
 Dry run. Just say what you would have done, don't do it.
 
-=item --aws-access-key-id KEY
-
-=item --aws-secret-access-key SECRET
-
-Amazon AWS access key and secret access key.  Defaults to
-environment variables or .awssecret file contents described below.
-
-=item --aws-access-key-id-file KEYFILE
-
-=item --aws-secret-access-key-file SECRETFILE
-
-Files containing Amazon AWS access key and secret access key.
-Defaults to environment variables or .awssecret file contents
-described below.
-
-=item  --aws-credentials-file CREDENTIALSFILE
-
-File containing both the Amazon AWS access key and secret access
-key on seprate lines and in that order.  Defaults to contents of
-$AWS_CREDENTIALS environment variable or the value $HOME/.awssecret
-
-=item  --use-iam-role
-
-The instance is part of an IAM role that that has permission to create
-snapshots so there is no need to specify access key or secret.
-
 =item --region REGION
 
 Specify a different EC2 region like "eu-west-1".  Defaults to
 "us-east-1".
+
+=item --profile PROFILE
+
+Specify a named profile for the AWS cli command.  You can configure
+additional profiles by using aws configure with the --profile option
+or by adding entries to the config and credentials files.
 
 =item --description DESCRIPTION
 

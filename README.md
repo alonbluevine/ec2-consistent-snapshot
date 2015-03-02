@@ -29,6 +29,12 @@ ec2-consistent-snapshot - Create EBS snapshots on EC2 w/consistent filesystem/db
     Specify a different EC2 region like "eu-west-1".  Defaults to
     "us-east-1".
 
+- \--profile PROFILE
+
+    Specify a named profile for the AWS cli command.  You can configure
+    additional profiles by using aws configure with the --profile option
+    or by adding entries to the config and credentials files.
+
 - \--description DESCRIPTION
 
     Specify a description string for the EBS snapshot.  Defaults to the
