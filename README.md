@@ -32,7 +32,7 @@ ec2-consistent-snapshot - Create EBS snapshots on EC2 w/consistent filesystem/db
 - \--profile PROFILE
 
     Specify a named profile for the AWS cli command.  You can configure
-    additional profiles by using aws configure with the --profile option
+    additional profiles by using `aws configure` with the `--profile` option
     or by adding entries to the config and credentials files.
 
 - \--description DESCRIPTION
@@ -266,11 +266,9 @@ Be aware of and monitor your expenses.
 You are responsible for what happens in your EC2 account.  This
 software is intended, but not guaranteed, to help in that effort.
 
-This program tries hard to figure out some values are for the AWS key
-and AWS secret access key.  In fact, it tries too hard.  This results
-in possibly using some credentials it finds that are not the correct
-ones you wish to use, especially if you are operating in an
-environment where multiple sets of credentials are in use.
+This program assumes that you have the AWS CLI tools installed and
+configured with the appropriate access keys.  You can configure these
+by running `aws configure`.
 
 # CREDITS
 
@@ -303,6 +301,7 @@ Matt Lyon <talisto@gmail.com>
 # LICENSE
 
 Original work Copyright (C) 2009-2014 Eric Hammond <ehammond@thinksome.com>
+
 Modified work Copyright (C) 2015 Matt Lyon <talisto@gmail.com>
 
 Licensed under the Apache License, Version 2.0 (the "License");

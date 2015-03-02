@@ -697,7 +697,7 @@ Specify a different EC2 region like "eu-west-1".  Defaults to
 =item --profile PROFILE
 
 Specify a named profile for the AWS cli command.  You can configure
-additional profiles by using aws configure with the --profile option
+additional profiles by using "aws configure" with the "--profile" option
 or by adding entries to the config and credentials files.
 
 =item --description DESCRIPTION
