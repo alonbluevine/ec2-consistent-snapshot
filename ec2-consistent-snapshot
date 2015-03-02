@@ -179,7 +179,7 @@ if ( scalar @freeze_filesystem > 0 ) {
 }
 
 my $success =
-  ebs_snapshot(\@volume_ids, $region, \@descriptions, \@tags);
+  ebs_snapshot(\@volume_ids, $region, $profile, \@descriptions, \@tags);
 
 exit ($success ? 0 : -1);
 
@@ -227,10 +227,9 @@ END {
 #---- METHODS ----
 
 sub ebs_snapshot {
-  my ($volume_ids, $ec2_endpoint, $descriptions, $tags) = @_;
+  my ($volume_ids, $region, $profile, $descriptions, $tags) = @_;
 
   $Debug and warn "$Prog: ", scalar localtime, ": create EC2 object\n";
-  $Debug and warn "$Prog: Endpoint: $ec2_endpoint\n" if $ec2_endpoint;
 
  VOLUME:
   for (my $index = 0; $index < scalar(@$volume_ids); ++$index ) {
@@ -251,8 +250,9 @@ sub ebs_snapshot {
     ualarm($snapshot_timeout * 1_000_000);
 
     my $snapshot_result = run_ec2_command(
-        $region,
         'create-snapshot',
+        $region,
+        $profile,
         "--volume-id $volume_id --description '$description'"
     );
 
@@ -274,7 +274,12 @@ sub ebs_snapshot {
             $tag_params .= "Key=$tag_key,Value=$tag_value ";
           }
 
-          run_ec2_command($region, 'create-tags', "--resources $snapshot_id --tags $tag_params");
+          run_ec2_command(
+            'create-tags',
+            $region,
+            $profile,
+            "--resources $snapshot_id --tags $tag_params"
+          );
         }
     }
     $Quiet or print "$snapshot_id\n";
@@ -627,18 +632,22 @@ sub run_command {
 }
 
 sub run_ec2_command {
-  my ($region, $command, @args) = @_;
+  my ($command, $region, $profile, @args) = @_;
   my $args = join(' ', @args);
 
-  my ($cmd, $json);
+  my $cmd = "aws --output json";
 
   if (defined($region)) {
-      $cmd = "aws --region $region --output json ec2 $command $args";
-  } else {
-      $cmd = "aws --output json ec2 $command $args";
+      $cmd .= " --region $region";
   }
 
-  my $result = `$cmd 2>&1`;
+  if (defined($profile)) {
+      $cmd .= " --profile $profile";
+  }
+
+  my $result = `$cmd ec2 $command $args 2>&1`;
+
+  my $json;
 
   eval {
     $json = decode_json($result);
