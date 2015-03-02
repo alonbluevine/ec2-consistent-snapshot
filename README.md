@@ -230,7 +230,7 @@ here: http://docs.aws.amazon.com/cli/latest/userguide/installing.html
 This program also relies on the JSON perl module, which can be installed
 with cpan:
 
-cpan JSON
+    cpan JSON
 
 
 # SEE ALSO
