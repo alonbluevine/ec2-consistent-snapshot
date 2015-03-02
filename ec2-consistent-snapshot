@@ -101,7 +101,7 @@ $freeze_cmd    = "xfs_freeze"
 
 system('aws --version');
 if ( $? == -1 ) {
-    die "aws command not found.  Are the AWS CLI tools installed\?";
+    die "aws command not found.  Is the AWS CLI tool installed\?";
 }
 
 die "$Prog: ERROR: Descriptions count (", scalar (@descriptions),
@@ -938,11 +938,9 @@ Be aware of and monitor your expenses.
 You are responsible for what happens in your EC2 account.  This
 software is intended, but not guaranteed, to help in that effort.
 
-This program tries hard to figure out some values are for the AWS key
-and AWS secret access key.  In fact, it tries too hard.  This results
-in possibly using some credentials it finds that are not the correct
-ones you wish to use, especially if you are operating in an
-environment where multiple sets of credentials are in use.
+This program assumes that you have the AWS CLI tool installed and
+configured with the appropriate access keys.  You can configure these
+by running `aws configure`.
 
 =head1 BUGS
 

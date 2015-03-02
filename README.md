@@ -173,7 +173,7 @@ systems, it might be better to simply run the command once for each
 volume id.
 
 NOTE: This is a modified version of Eric Hammond's original
-ec2-consistent-snapshot program.  This version uses the AWS CLI tools,
+ec2-consistent-snapshot program.  This version uses the AWS CLI tool,
 instead of the Net::Amazon::EC2 Perl module.  The original program
 is available here: https://github.com/alestic/ec2-consistent-snapshot
 
@@ -230,7 +230,7 @@ Snapshot two volumes with customized descriptions:
 
 # INSTALLATION
 
-This program relies on the AWS CLI tools.  See installation instructions
+This program relies on the AWS CLI tool.  See installation instructions
 here: http://docs.aws.amazon.com/cli/latest/userguide/installing.html
 
 This program also relies on the JSON perl module, which can be installed
@@ -266,7 +266,7 @@ Be aware of and monitor your expenses.
 You are responsible for what happens in your EC2 account.  This
 software is intended, but not guaranteed, to help in that effort.
 
-This program assumes that you have the AWS CLI tools installed and
+This program assumes that you have the AWS CLI tool installed and
 configured with the appropriate access keys.  You can configure these
 by running `aws configure`.
 
